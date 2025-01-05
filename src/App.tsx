@@ -1,10 +1,11 @@
+import { RouterProvider } from 'react-router-dom';
 import './App.css';
+import router from './routes/route';
 
 function App() {
-
   return (
     <div>
-      <h1 className='text-5xl font-semibold text-center'>TaskMaster App</h1>
+      <RouterProvider router={router}></RouterProvider>
     </div>
   )
 }
