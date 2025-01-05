@@ -1,3 +1,4 @@
+import { ModeToggle } from "@/components/ui/mode-toggle";
 import { SiTask } from "react-icons/si";
 import { Link } from "react-router-dom";
 
@@ -19,7 +20,7 @@ const Navbar = () => {
                 </ul>
             </div>
             <div>
-                dark
+                <ModeToggle />
             </div>
         </nav>
     );
