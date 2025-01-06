@@ -1,12 +1,14 @@
+import { RootState } from "@/redux/store";
 import { ITask } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IInitialState {
-    task: ITask[],
+    tasks: ITask[],
+    filter: 'all' | 'high' | 'medium' | 'low',
 }
 
 const initialState: IInitialState = {
-    task: [
+    tasks: [
         {
             id: '676932a8bff8a9f9d2c9f64c',
             title: 'Initialize Frontend',
@@ -18,18 +20,35 @@ const initialState: IInitialState = {
         {
             id: '676932a8bff8a9f9d2c9f64c',
             title: 'Create github repo',
-            description: 'Create task management project, home page, and routing, redux',
+            description: 'Create github repo, home page, and routing, redux',
             dueDate: '2025-01-05',
             isCompleted: false,
             priority: 'Medium',
         },
+        {
+            id: '676932a8bff8a9f9d2c9f64c',
+            title: 'Create Backend Project',
+            description: 'Create backend project, typescript, node.js, express.js',
+            dueDate: '2025-01-05',
+            isCompleted: false,
+            priority: 'Low',
+        },
     ],
+    filter: 'all',
 };
 
 const taskSlice = createSlice({
-    name: 'tasks',
+    name: 'task',
     initialState,
     reducers: {},
 });
+
+export const selectTasks = (state: RootState) => {
+    return state.todo.tasks;
+};
+
+export const selectFilter = (state: RootState) => {
+    return state.todo.filter;
+};
 
 export default taskSlice.reducer;
