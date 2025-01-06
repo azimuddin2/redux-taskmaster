@@ -18,7 +18,7 @@ const initialState: IInitialState = {
             priority: 'High',
         },
         {
-            id: '676932a8bff8a9f9d2c9f64c',
+            id: '676932a8bff8a9f9d2c9f64a',
             title: 'Create github repo',
             description: 'Create github repo, home page, and routing, redux',
             dueDate: '2025-01-05',
@@ -26,7 +26,7 @@ const initialState: IInitialState = {
             priority: 'Medium',
         },
         {
-            id: '676932a8bff8a9f9d2c9f64c',
+            id: '676932a8bff8a9f9d2c9f64d',
             title: 'Create Backend Project',
             description: 'Create backend project, typescript, node.js, express.js',
             dueDate: '2025-01-05',
