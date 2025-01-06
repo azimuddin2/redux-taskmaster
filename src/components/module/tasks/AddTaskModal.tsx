@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import {
     Dialog,
     DialogContent,
@@ -15,24 +16,31 @@ import {
     FormLabel
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
     Select,
     SelectContent,
-    SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
+import { addTask } from '@/redux/features/tasks/taskSlice';
+import { useAppDispatch } from '@/redux/hooks';
 import { DialogDescription } from '@radix-ui/react-dialog';
+import { format } from 'date-fns';
+import { CalendarIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 const AddTaskModal = () => {
     const form = useForm();
 
+    const dispatch = useAppDispatch();
+
     const onSubmit = (data: any) => {
-        console.log(data)
+        console.log(data);
+        dispatch(addTask(data));
     };
 
     return (
@@ -47,7 +55,6 @@ const AddTaskModal = () => {
                 <DialogDescription className='sr-only'>Fill up this form to add tasks</DialogDescription>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
-
                         <FormField
                             control={form.control}
                             name="title"
@@ -82,42 +89,66 @@ const AddTaskModal = () => {
 
                         <FormField
                             control={form.control}
-                            name="dueDate"
+                            name="priority"
                             render={({ field }) => (
-                                <FormItem className='my-3'>
-                                    <FormLabel>Due Date</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            value={field.value || ''}
-                                        />
-                                    </FormControl>
+                                <FormItem>
+                                    <FormLabel>Priority</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select a priority to set" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="high">High</SelectItem>
+                                            <SelectItem value="medium">Medium</SelectItem>
+                                            <SelectItem value="low">Low</SelectItem>
+                                        </SelectContent>
+                                    </Select>
                                 </FormItem>
                             )}
                         />
 
                         <FormField
                             control={form.control}
-                            name="priority"
+                            name="dueDate"
                             render={({ field }) => (
-                                <Select>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a priority" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            <SelectLabel>Fruits</SelectLabel>
-                                            <SelectItem value="apple">Apple</SelectItem>
-                                            <SelectItem value="banana">Banana</SelectItem>
-                                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                                            <SelectItem value="grapes">Grapes</SelectItem>
-                                            <SelectItem value="pineapple">Pineapple</SelectItem>
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
+                                <FormItem className="flex flex-col mt-5">
+                                    <FormLabel>Due Date</FormLabel>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <FormControl>
+                                                <Button
+                                                    variant={"outline"}
+                                                    className={cn(
+                                                        " pl-3 text-left font-normal",
+                                                        !field.value && "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    {field.value ? (
+                                                        format(field.value, "PPP")
+                                                    ) : (
+                                                        <span>Pick a date</span>
+                                                    )}
+                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                </Button>
+                                            </FormControl>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0" align="start">
+                                            <Calendar
+                                                mode="single"
+                                                selected={field.value}
+                                                onSelect={field.onChange}
+                                                // disabled={(date) =>
+                                                //     date > new Date() || date < new Date("1900-01-01")
+                                                // }
+                                                initialFocus
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                </FormItem>
                             )}
                         />
-
                         <DialogFooter className='mt-5'>
                             <Button type="submit">Save</Button>
                         </DialogFooter>

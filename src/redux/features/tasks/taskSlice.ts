@@ -1,6 +1,7 @@
 import { RootState } from "@/redux/store";
 import { ITask } from "@/types";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from 'uuid';
 
 interface IInitialState {
     tasks: ITask[],
@@ -8,39 +9,26 @@ interface IInitialState {
 }
 
 const initialState: IInitialState = {
-    tasks: [
-        {
-            id: '676932a8bff8a9f9d2c9f64c',
-            title: 'Initialize Frontend',
-            description: 'Create task management project, home page, and routing, redux',
-            dueDate: '2025-01-05',
-            isCompleted: false,
-            priority: 'High',
-        },
-        {
-            id: '676932a8bff8a9f9d2c9f64a',
-            title: 'Create github repo',
-            description: 'Create github repo, home page, and routing, redux',
-            dueDate: '2025-01-05',
-            isCompleted: false,
-            priority: 'Medium',
-        },
-        {
-            id: '676932a8bff8a9f9d2c9f64d',
-            title: 'Create Backend Project',
-            description: 'Create backend project, typescript, node.js, express.js',
-            dueDate: '2025-01-05',
-            isCompleted: false,
-            priority: 'Low',
-        },
-    ],
+    tasks: [],
     filter: 'all',
 };
 
 const taskSlice = createSlice({
     name: 'task',
     initialState,
-    reducers: {},
+    reducers: {
+        addTask: (state, action: PayloadAction<ITask>) => {
+            const id = uuidv4();
+
+            const taskData = {
+                ...action.payload,
+                id,
+                isCompleted: false,
+            };
+
+            state.tasks.push(taskData);
+        },
+    },
 });
 
 export const selectTasks = (state: RootState) => {
@@ -50,5 +38,7 @@ export const selectTasks = (state: RootState) => {
 export const selectFilter = (state: RootState) => {
     return state.todo.filter;
 };
+
+export const { addTask } = taskSlice.actions;
 
 export default taskSlice.reducer;
