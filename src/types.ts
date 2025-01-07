@@ -1,3 +1,5 @@
+export type TPriority = "all" | "high" | "medium" | "low";
+
 export interface ITask {
     id: string;
     title: string;
