@@ -28,19 +28,20 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { addTask } from '@/redux/features/tasks/taskSlice';
 import { useAppDispatch } from '@/redux/hooks';
+import { ITask } from '@/types';
 import { DialogDescription } from '@radix-ui/react-dialog';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 const AddTaskModal = () => {
     const form = useForm();
 
     const dispatch = useAppDispatch();
 
-    const onSubmit = (data: any) => {
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
         console.log(data);
-        dispatch(addTask(data));
+        dispatch(addTask(data as ITask));
     };
 
     return (
@@ -70,7 +71,6 @@ const AddTaskModal = () => {
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="description"
@@ -86,7 +86,6 @@ const AddTaskModal = () => {
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="priority"
@@ -108,7 +107,6 @@ const AddTaskModal = () => {
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="dueDate"
