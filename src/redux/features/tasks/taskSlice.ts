@@ -16,6 +16,7 @@ const initialState: IInitialState = {
             description: "Full stack web development using javascript, typescript, react.js, react router, redux, node.js, express.js",
             priority: "high",
             dueDate: "2025-01-07T18:00:00.000Z",
+            assignedTo: "N3nL1JNF_JwPaEXKNwXaf",
         },
         {
             id: "N3nL1JNF_JwPaEXKNwXaW",
@@ -24,6 +25,7 @@ const initialState: IInitialState = {
             description: "Front end web development using javascript, typescript, react.js, react router, redux",
             priority: "low",
             dueDate: "2025-01-10T18:00:00.000Z",
+            assignedTo: null,
         },
         {
             id: "fYnnUB8scT3QDCtgB8SDm",
@@ -32,6 +34,7 @@ const initialState: IInitialState = {
             description: "Front end web development using javascript, typescript, node.js, express.js",
             priority: "medium",
             dueDate: "2025-01-16T18:00:00.000Z",
+            assignedTo: "N3nL1JNF_JwPaEXKNwXae"
         }
     ],
     filter: 'all',
@@ -40,7 +43,12 @@ const initialState: IInitialState = {
 type DraftTask = Pick<ITask, "title" | "description" | "priority" | "dueDate">;
 
 const createTask = (taskData: DraftTask): ITask => {
-    return { id: nanoid(), isCompleted: false, ...taskData };
+    return {
+        id: nanoid(),
+        isCompleted: false,
+        assignedTo: null,
+        ...taskData
+    };
 };
 
 const taskSlice = createSlice({

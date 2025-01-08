@@ -27,7 +27,8 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { addTask } from '@/redux/features/tasks/taskSlice';
-import { useAppDispatch } from '@/redux/hooks';
+import { selectUsers } from '@/redux/features/users/userSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { ITask } from '@/types';
 import { DialogDescription } from '@radix-ui/react-dialog';
 import { format } from 'date-fns';
@@ -36,6 +37,8 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 const AddTaskModal = () => {
     const form = useForm();
+
+    const users = useAppSelector(selectUsers);
 
     const dispatch = useAppDispatch();
 
@@ -102,6 +105,27 @@ const AddTaskModal = () => {
                                             <SelectItem value="high">High</SelectItem>
                                             <SelectItem value="medium">Medium</SelectItem>
                                             <SelectItem value="low">Low</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="assignedTo"
+                            render={({ field }) => (
+                                <FormItem className='mt-5'>
+                                    <FormLabel>Assign To</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select a user to set" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {
+                                                users.map((user) => <SelectItem value={user.id}>{user.name}</SelectItem>)
+                                            }
                                         </SelectContent>
                                     </Select>
                                 </FormItem>

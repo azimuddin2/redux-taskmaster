@@ -12,7 +12,7 @@ const Users = () => {
                 <h1 className="text-2xl">Users</h1>
                 <AddUserModal></AddUserModal>
             </div>
-            <div className="my-10 grid grid-cols-2 gap-5">
+            <div className="my-10 grid grid-cols-3 gap-4">
                 {
                     users.map((user) => (
                         <UserCard user={user} key={user.id} />

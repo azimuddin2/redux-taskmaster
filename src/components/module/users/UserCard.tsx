@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { removeUser } from "@/redux/features/users/userSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { IUser } from "@/types";
 import { Trash2 } from "lucide-react";
 
@@ -7,6 +9,13 @@ interface IProps {
 }
 
 const UserCard = ({ user }: IProps) => {
+
+    const dispatch = useAppDispatch();
+
+    const handleRemoveUser = (id: string) => {
+        dispatch(removeUser(id));
+    };
+
     return (
         <div className="border px-5 py-3 rounded-md mb-5">
             <div className="flex justify-between items-center">
@@ -16,7 +25,7 @@ const UserCard = ({ user }: IProps) => {
                 </div>
                 <div className="flex gap-3 items-center">
                     <Button
-                        // onClick={() => handleDeleteTask(task.id)}
+                        onClick={() => handleRemoveUser(user.id)}
                         variant={'link'}
                         className="p-0 text-red-500"
                     >

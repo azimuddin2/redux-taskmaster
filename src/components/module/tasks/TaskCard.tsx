@@ -2,7 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { deleteTask, toggleCompleteState } from "@/redux/features/tasks/taskSlice";
-import { useAppDispatch } from "@/redux/hooks";
+import { selectUsers } from "@/redux/features/users/userSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { ITask } from "@/types";
 import { Trash2 } from "lucide-react";
 
@@ -13,6 +14,9 @@ interface IProps {
 const TaskCard = ({ task }: IProps) => {
 
     const dispatch = useAppDispatch();
+    const users = useAppSelector(selectUsers);
+
+    const assignedUser = users.find((user) => user.id === task.assignedTo);
 
     const handleToggleCompleteState = (id: string) => {
         dispatch(toggleCompleteState(id));
@@ -47,6 +51,7 @@ const TaskCard = ({ task }: IProps) => {
                     />
                 </div>
             </div>
+            <p>Assigned To - {assignedUser ? assignedUser.name : "No one"}</p>
             <p>{task.description}</p>
         </div>
     );
