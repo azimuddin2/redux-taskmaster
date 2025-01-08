@@ -12,10 +12,10 @@ const Navbar = () => {
             <div>
                 <ul className="flex items-center">
                     <li className="mr-8 font-normal">
-                        <Link to="/">Task</Link>
+                        <Link to="/">Tasks</Link>
                     </li>
                     <li>
-                        <Link to="/login">Login</Link>
+                        <Link to="/users">Users</Link>
                     </li>
                 </ul>
             </div>
